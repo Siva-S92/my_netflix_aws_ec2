@@ -3,6 +3,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import databaseConnection from './utils/database.js';
 import { userRouter } from './routes/userRoute.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 
 //config the env variables
@@ -27,8 +29,18 @@ databaseConnection();
 
 
 //routes
-app.get('/', async (req, res) => res.send("Express on vercel with server.js"))
+// app.get('/', async (req, res) => res.send("Express on vercel with server.js"))
 app.use("/api/user", userRouter );
+
+const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
+const __dirname = path.dirname(__filename); // get the name of the directory
+
+if (process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname, '../client/dist')))
+    app.get("*", async(req, res) => {
+        res.sendFile(path.resolve(__dirname, '../client/dist/index.html'))
+    })
+}
 
 
 
