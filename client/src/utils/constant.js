@@ -1,4 +1,4 @@
-export const API_ENDPOINT = "http://localhost:8000/api/user";
+export const API_ENDPOINT = "http://3.82.215.121:8000/api/user";
 
 export const options = {
   method: "GET",
